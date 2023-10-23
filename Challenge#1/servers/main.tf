@@ -10,7 +10,7 @@ resource "azurerm_network_interface" "be-interface" {
     location = var.location
 
     ip_configuration{
-        name = "webserver"
+        name = "backend-server"
         subnet_id = var.be_subnet_id
         private_ip_address_allocation = "Dynamic"
     }
@@ -33,7 +33,7 @@ resource "azurerm_virtual_machine" "be-vm" {
   }
 
   storage_os_disk {
-    name = "web-disk"
+    name = "be-disk"
     caching = "ReadWrite"
     create_option = "FromImage"
     managed_disk_type = "Standard_LRS"
@@ -63,7 +63,7 @@ resource "azurerm_network_interface" "fe-interface" {
     location = var.location
 
     ip_configuration{
-        name = "fe-webserver"
+        name = "frontend-server"
         subnet_id = var.fe_subnet_id
         private_ip_address_allocation = "Dynamic"
     }
