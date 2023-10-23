@@ -1,5 +1,5 @@
 resource "azurerm_sql_server" "primary" {
-    name = var.primary_database
+    name = var.database
     resource_group_name = var.resource_group
     location = var.location
     version = var.database_version
