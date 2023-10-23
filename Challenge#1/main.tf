@@ -10,43 +10,43 @@ module "resource-group" {
 
 module "network" {
   source         = "./network"
-  location       = module.resourcegroup.location_id
-  resource_group = module.resourcegroup.resource_group_name
-  vnetcidr       = var.vnetcidr
-  websubnetcidr  = var.websubnetcidr
-  appsubnetcidr  = var.appsubnetcidr
-  dbsubnetcidr   = var.dbsubnetcidr
+  location       = module.resource-group.location_id
+  resource_group = module.resource-group.resource_group_name
+  vnet_cidr       = var.vnet_cidr
+  besubnet_cidr  = var.besubnet_cidr
+  fesubnet_cidr  = var.fesubnet_cidr
+  dbsubnet_cidr   = var.dbsubnet_cidr
 }
 
 module "security-group" {
   source         = "./security-group"
-  location       = module.resourcegroup.location_id
-  resource_group = module.resourcegroup.resource_group_name 
-  web_subnet_id  = module.networking.websubnet_id
-  app_subnet_id  = module.networking.appsubnet_id
+  location       = module.resource-group.location_id
+  resource_group = module.resource-group.resource_group_name 
+  be_subnet_id  = module.network.besubnet_id
+  fe_subnet_id  = module.networking.fesubnet_id
   db_subnet_id   = module.networking.dbsubnet_id
 }
 
 module "servers" {
   source         = "./servers"
-  location = module.resourcegroup.location_id
+  location = module.resource-group.location_id
   resource_group = module.resourcegroup.resource_group_name
-  web_subnet_id = module.networking.websubnet_id
-  app_subnet_id = module.networking.appsubnet_id
-  web_host_name = var.web_host_name
-  web_username = var.web_username
-  web_os_password = var.web_os_password
-  app_host_name = var.app_host_name
-  app_username = var.app_username
-  app_os_password = var.app_os_password
+  be_subnet_id = module.networking.besubnet_id
+  fe_subnet_id = module.networking.fesubnet_id
+  be_host_name = var.be_host_name
+  be_username = var.be_username
+  be_os_password = var.be_os_password
+  fe_host_name = var.fe_host_name
+  fe_username = var.fe_username
+  fe_os_password = var.fe_os_password
 }
 
 module "database" {
   source = "./database"
-  location = module.resourcegroup.location_id
-  resource_group = module.resourcegroup.resource_group_name
-  primary_database = var.primary_database
-  primary_database_version = var.primary_database_version
-  primary_database_admin = var.primary_database_admin
-  primary_database_password = var.primary_database_password
+  location = module.resource-group.location_id
+  resource_group = module.resource-group.resource_group_name
+  database = var.database
+  database_version = var.database_version
+  database_admin_user = var.database_admin_user
+  database_admin_password = var.database_admin_password
 }
